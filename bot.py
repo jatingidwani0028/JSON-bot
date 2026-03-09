@@ -5,6 +5,8 @@ alongside the Telegram polling loop so Render never kills the process.
 
 Run with:
     python bot.py
+  or from the repo root:
+    python telegram_json_manager/bot.py
 
 Environment variables (set these in Render's dashboard):
     BOT_TOKEN   — your Telegram bot token
@@ -14,6 +16,17 @@ Environment variables (set these in Render's dashboard):
 import asyncio
 import logging
 import os
+import sys
+from pathlib import Path
+
+# ── Path fix ──────────────────────────────────────────────────────────────────
+# Ensure the directory containing bot.py (telegram_json_manager/) is always
+# on sys.path.  Render runs "python telegram_json_manager/bot.py" from the
+# repo root, so Python's default path would be the repo root — not the package
+# directory — causing "No module named 'database.database'" etc.
+_HERE = Path(__file__).resolve().parent
+if str(_HERE) not in sys.path:
+    sys.path.insert(0, str(_HERE))
 
 from aiohttp import web
 from aiogram import Bot, Dispatcher

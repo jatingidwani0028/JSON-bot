@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: telegram-json-manager-bot
+    runtime: python
+    rootDir: telegram_json_manager
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false          # Set this manually in the Render dashboard
+      - key: PYTHON_VERSION
+        value: "3.11.8"
